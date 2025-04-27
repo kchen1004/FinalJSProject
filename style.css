@@ -1,3 +1,60 @@
 /* use webkit to create variable browser sizing */
-/* use flexbox to create a centered container */
 /* to reduce css styling, just keep everything vertically stacked in a single column (or should there be multiple pages with a references page too? */
+
+/* Page Styling */
+html {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 16px;
+}
+
+wrapper {
+    display: grid;
+    grid-template-rows: auto;
+}
+
+/* Body Styling */
+body {
+    margin: auto;
+    max-width: 800px;
+}
+
+h1 {
+    font-size: 3rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+/* Footer Styling */
+
+footer {
+    margin: auto;
+    max-width: 800px;
+}
+
+#footerContainer {
+    display: table;
+    margin: 0 auto;
+}
+
+footer ul {
+    list-style-type: none;
+}
+
+footer li {
+    float: left;
+}
+
+footer ul a {
+    display: block;
+    text-align: center;
+    padding: .2rem 3rem;
+
+}
+
+/* Map Styling */
+
+#map {
+    height: 400px;
+}

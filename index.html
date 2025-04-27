@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset = "utf-8">
-        <link rel="stylesheet" href="styles.css">
-        <script src="script.js"></script>
-        <title>Food Access and Neighborhood Demographics</title>
-    </head>
+
+<head>
+    <meta charset="utf-8">
+    <!-- leaflet stylesheets -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- css -->
+    <link rel="stylesheet" href="style.css">
+    <title>Food Access and Neighborhood Demographics</title>
+</head>
+<div class="wrapper">
+
     <body>
-        <!-- need a div for header, intro, map, references, footer -->
+
+        <div class="header">
+            <h1>Food Access in NYC</h1>
+        </div>
+        <div class="intro">
+            <div class="sectionTitle">
+                <h2>What Are Food Deserts?</h2>
+            </div>
+            <div>
+                <p>Is there a relationship between the density of grocery stores in a neighborhood compared to the
+                    economic
+                    and racial profile of that neighborhood?</p>
+            </div>
+        </div>
+        <div class="explore">
+            <div class="sectionTitle">
+                <h2>Exploring Food Access</h2>
+            </div>
+            <div id="map">
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="script.js"></script>
     </body>
+    <footer>
+        <div id="footerContainer">
+            <ul>
+                <li><a href="about.html">About</a></li>
+                <li><a href="reference.html">References</a></li>
+                <li><a href=#header>Back to Top</a></li>
+            </ul>
+        </div>
+    </footer>
+</div>
+
 </html>
