@@ -3,7 +3,81 @@ map = L.map("map");
 
 L.tileLayer('https://tiles.stadiamaps.com/tiles/osm_bright/{z}/{x}/{y}{r}.png?api_key=f631c310-c6fd-453d-985f-556628c41cd2', {
     maxZoom: 20,
-    attribution: '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>', 
+    attribution: '&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a> &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 }).addTo(map);
 
 map.setView([40.7128, -74.0060], 12);
+
+L.geoJson(zipcode).addTo(map);
+
+let allZipcodes = zipcode.features.map(function (feature) {
+    return feature.properties.postalCode;
+}).filter(function (zips) {
+    return zips !== "";
+}).sort();
+
+// console.log(allZipcodes);
+
+let nycData = [];
+
+
+console.log(nycData);
+console.log(nycData.length);
+let counter = 0;
+
+L.geoJSON(zipcode, {
+    style: function (feature) {
+        // go through each postalCode in zipcode
+        // then use for loop to look for the Zipcode in population
+        for (i = 0; i < zipcodePopulation.length; i++) {
+            // check if the postalCode exists in the population array
+            if (feature.properties.postalCode === zipcodePopulation[i].Zipcode) {
+                if(!nycData.includes(feature.properties.postalCode)) {
+                    // creates an array of zipcodes that are in both zipcodes
+                    nycData.push(feature.properties.postalCode);
+                };
+                // check the number of matches
+                counter++;
+                return {
+                    color: "red",
+                    fillColor: "red",
+                    fillOpacity: "0.3"
+                };
+            };
+        };
+    }
+}
+).addTo(map);
+
+console.log(counter);
+console.log(nycData);
+console.log(nycData.length);
+// right now there are 222 matches, but only 209 in nycData, so there must be some duplicates
+
+// Using centering function to get the center of each zipcode polygon
+function centerMapOnZipcode(layer) {
+    let center = layer.getBounds().getCenter();
+    let zipcodeLabel = layer.feature.properties.postalCode;
+
+    L.marker(center)
+        .bindPopup("<h3>" + zipcodeLabel + "</h3>")
+        .addTo(map)
+        .openPopup();
+}
+
+L.geoJSON(zipcode, {
+    onEachFeature: function (feature, layer) {
+        layer.bindPopup("<h3>" + feature.properties.postalCode + "</h3>");
+
+        layer.on('click', function (mouse) {
+            centerMapOnZipcode(mouse.target);
+            // layer.on('mouseout', function () {
+            //     layer.closePopup();
+            // })
+        })
+    }
+}).addTo(map);
+
+// Check the matches between zipcode and population data by adding the population to each zipcode.
+
+// Find the zipcode in zipcode.js and if it exists, count the number times it appears in the grocery store data, divide by the population in that zip code.
