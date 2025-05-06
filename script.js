@@ -10,38 +10,48 @@ map.setView([40.7128, -74.0060], 12);
 
 L.geoJson(zipcode).addTo(map);
 
-let allZipcodes = zipcode.features.map(function (feature) {
-    return feature.properties.postalCode;
-}).filter(function (zips) {
-    return zips !== "";
-}).sort();
+// create a function to find the grocery store density per 1000 people.
 
-// console.log(allZipcodes);
+function density(i, j) {
+    // i is census index
+    // j is grocery store index
+    let stores = Number(storeCount[j].numberStores);
+    let people = Number(censusData[i].totalPopulation);
+    return stores / people;
+}
 
-let nycData = [];
+console.log(density(79,6));
 
+// Start setup for finding unique zipcodes
 
-console.log(nycData);
-console.log(nycData.length);
+let uniqueZipcodes = [];
 let counter = 0;
 
+// The code below is being used to check for the number of zipcodes that exist across all three sets of data, starting with the zipcode geojson data, then population data, then the grocery store data, then census poverty data.
 L.geoJSON(zipcode, {
     style: function (feature) {
         // go through each postalCode in zipcode
-        // then use for loop to look for the Zipcode in population
-        for (i = 0; i < zipcodePopulation.length; i++) {
-            // check if the postalCode exists in the population array
-            if (feature.properties.postalCode === zipcodePopulation[i].Zipcode) {
-                if(!nycData.includes(feature.properties.postalCode)) {
-                    // creates an array of zipcodes that are in both zipcodes
-                    nycData.push(feature.properties.postalCode);
-                };
-                // check the number of matches
-                counter++;
-                return {
-                    color: "red",
-                    fillColor: "red",
-                    fillOpacity: "0.3"
+        // then use for loop to look for the Zipcode in census data
+        for (i = 0; i < censusData.length; i++) {
+            // check if the postalCode exists in the census data
+            if (feature.properties.postalCode === censusData[i].zipcode) {
+                // if it exists in census data, then we also check it exists in grocery data
+                for (j = 0; j < storeCount.length; j++) {
+                    if (feature.properties.postalCode === storeCount[j].zipcode) {
+                        if (!uniqueZipcodes.includes(feature.properties.postalCode)) {
+                            // creates an array of zipcodes that are in datasets
+                            uniqueZipcodes.push(feature.properties.postalCode);
+                        };
+                        // check the number of matches
+                        counter++;
+                        // change color of regions so we know which ones we have so far, we'll use this space to do the chloropeth later
+                        return {
+                            color: "red",
+                            fillColor: "red",
+                            fillOpacity: "0.3"
+                        };
+
+                    };
                 };
             };
         };
@@ -50,9 +60,10 @@ L.geoJSON(zipcode, {
 ).addTo(map);
 
 console.log(counter);
-console.log(nycData);
-console.log(nycData.length);
-// right now there are 222 matches, but only 209 in nycData, so there must be some duplicates
+console.log(uniqueZipcodes);
+console.log(uniqueZipcodes.length);
+// currently 184 matches between all 4 datasets
+
 
 // Using centering function to get the center of each zipcode polygon
 function centerMapOnZipcode(layer) {
