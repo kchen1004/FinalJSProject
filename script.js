@@ -16,17 +16,6 @@ L.geoJson(zipcode, {
     }
 }).addTo(map);
 
-// Using centering function to get the center of each zipcode polygon
-// function centerMapOnZipcode(layer) {
-//     let center = layer.getBounds().getCenter();
-//     let zipcodeLabel = layer.feature.properties.postalCode;
-
-//     L.marker(center)
-//         .bindPopup("<h3>" + zipcodeLabel + "</h3>")
-//         .addTo(map)
-//         .openPopup();
-// }
-
 // create a function to find the grocery store density per 10000 people.
 
 function density(i, j) {
@@ -37,16 +26,6 @@ function density(i, j) {
     return 10000 * stores / people;
 }
 
-// (1,1) #E8E8E8
-// (2,1) #D2B5C8
-// (3,1) #BB82A8
-// (1,2) #AECAD9
-// (2,2) #9897B9
-// (3,2) #816499
-// (1,3) #74ADC9
-// (2,3) #5E7AA9
-// (3,3) #474789
-
 const a1 = '#c900a1';
 const a2 = '#9600a1';
 const a3 = '#0000a1';
@@ -56,10 +35,6 @@ const b3 = '#008ecd';
 const c1 = '#E8E8E8';
 const c2 = '#96e3e3';
 const c3 = '#00d9d9';
-
-// NEXT STEPS
-// create a legend
-// finish the other two pages, including references
 
 function fillColor(i, j) {
     if (density(i, j) > 40) {
@@ -73,7 +48,7 @@ function fillColor(i, j) {
             return c1;
         }
     }
-    if (density(i, j) > 18) {
+    if (density(i, j) > 20) {
         if (censusData[i].percentInPoverty > 30) {
             return b3;
         }
@@ -125,7 +100,7 @@ L.geoJSON(zipcode, {
                                     color: 'white',
                                     weight: 1,
                                     fillColor: fillColor(i, j),
-                                    fillOpacity: 1
+                                    fillOpacity: 0.8
                                 };
                             }
                         }
@@ -169,7 +144,7 @@ L.geoJSON(zipcode, {
         }
 
         if (thisPovertyPercent && thisStoreDensity) {
-            let popupContent = "<h3>Zipcode: " + thisZipcode + "<h3> <hr/> <h4>Population: " + thisPopulation + "<br/>Grocery Stores: " + thisNumberStores + "<br/>Percent in Poverty: " + thisPovertyPercent + "%<h4/>";
+            let popupContent = "<h3><b>Zipcode:</b> " + thisZipcode + "<h3> <hr/> <h4><b>Population:</b> " + thisPopulation + "<br/><b>Grocery Stores:</b> " + thisNumberStores + "<br/><b>Percent in Poverty:</b> " + thisPovertyPercent + "%<h4/>";
 
             // find center of each zip code
             let center = layer.getBounds().getCenter();
@@ -197,6 +172,7 @@ L.geoJSON(zipcode, {
 const legend = L.control({ position: 'bottomright' });
 const gridColors = [a1, a2, a3, b1, b2, b3, c1, c2, c3];
 
+// styling and creating legend done with feedback from claude
 legend.onAdd = function (map) {
     const container = L.DomUtil.create('div', 'legendInfo');
 

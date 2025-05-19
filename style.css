@@ -1,6 +1,3 @@
-/* use webkit to create variable browser sizing */
-/* to reduce css styling, just keep everything vertically stacked in a single column (or should there be multiple pages with a references page too? */
-
 /* Page Styling */
 html {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -16,6 +13,7 @@ wrapper {
 body {
     margin: auto;
     max-width: 800px;
+    padding: 1rem 3rem;
 }
 
 h1 {
@@ -24,6 +22,10 @@ h1 {
 
 h2 {
     font-size: 2rem;
+}
+
+h4 {
+    color: #536878;
 }
 
 /* Citation Formatting */
@@ -57,6 +59,8 @@ footer ul a {
     display: block;
     text-align: center;
     padding: .2rem 3rem;
+    text-decoration: none;
+    color: #2A3439;
 
 }
 
